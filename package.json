@@ -11,5 +11,8 @@
     "sfmc"
   ],
   "author": "Fiona Elliott",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "sfmc": "file:../exploration/vendor/toolbox/opt/sfmc-toolbox/sfmc-nodejs-rest-lib/sfmc.tgz"
+  }
 }
