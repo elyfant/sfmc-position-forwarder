@@ -5,14 +5,18 @@ npm-debug.log
 # Config / credentials
 config/local.json
 .env
-*.key
-*.pem
 
 # Runtime
-logs/
-state/
+logs/*
+!logs/.gitkeep
+state/*
+!state/.gitkeep
 
-# OS/editor
+# OS/Mac/Linux/editor
 .vscode/
 .DS_Store
+Thumbs.db
 
+# IDE
+.vscode/
+.idea/
