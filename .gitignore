@@ -1,0 +1,18 @@
+# Node
+node_modules/
+npm-debug.log
+
+# Config / credentials
+config/local.json
+.env
+*.key
+*.pem
+
+# Runtime
+logs/
+state/
+
+# OS/editor
+.vscode/
+.DS_Store
+

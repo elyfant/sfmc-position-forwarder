@@ -1,0 +1,15 @@
+{
+  "name": "sfmc_position_forwarder",
+  "version": "1.0.0",
+  "description": "Listener for slocum glider near-real-time positions, forwarders this to various endpoints",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "slocum",
+    "sfmc"
+  ],
+  "author": "Fiona Elliott",
+  "license": "ISC"
+}
