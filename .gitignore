@@ -4,6 +4,7 @@ npm-debug.log
 
 # Config / credentials
 config/local.json
+config/app.json
 .env
 
 # Runtime

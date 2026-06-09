@@ -1,0 +1,12 @@
+{
+    "gliders": [
+        "durin",
+        "dvalin",
+        "urd"
+    ],
+
+    "barentswatch": {
+        "apiUrl": "https://example.com/api",
+        "token": "REPLACE_ME"
+    }
+}

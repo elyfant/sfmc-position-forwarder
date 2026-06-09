@@ -1,4 +1,5 @@
-const sfmc = require("sfmc");
+const { loadConfig } = require("./config");
 
-console.log("SDK loaded");
-console.log(Object.keys(sfmc.glider));
+const config = loadConfig();
+
+console.log(config.sfmc.gliders);
