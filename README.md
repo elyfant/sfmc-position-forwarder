@@ -142,9 +142,9 @@ systemd/
 {
     "sfmc": {
         "gliders": [
-            "durin",
-            "dvalin",
-            "urd"
+            "unit-123",
+            "unit-124",
+            "unit-125"
         ]
     },
 
