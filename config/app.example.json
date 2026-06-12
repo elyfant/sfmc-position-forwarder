@@ -1,12 +1,15 @@
 {
-    "gliders": [
-        "glider-1",
-        "glder-1",
-        "glider-3"
-    ],
-
+    "sfmc": {
+        "gliders": [
+            "unit-123",
+            "unit-124"
+        ]
+    },
     "barentswatch": {
-        "apiUrl": "https://example.com/api",
-        "token": "REPLACE_ME"
-    }
+        "enabled": false
+    },
+    "narval": {
+        "enabled": false
+    },
+    "logging": {}
 }
