@@ -16,7 +16,43 @@ Current development is focused on:
 * State persistence
 * External API integration framework
 
-Planned integrations include BarentsWatch (barentswatch.no) and Narval (narval.nersc.no).
+Planned integrations include BarentsWatch (barentswatch.no), Narval (narval.nersc.no), and other marine data systems.
+
+---
+
+## Prerequisites
+
+This project depends on the proprietary SFMC Node.js SDK, which is distributed as part of a licensed SFMC installation.
+
+Obtain the SDK package:
+
+```text
+sfmc.tgz
+```
+
+Typically found within an SFMC installation:
+
+```text
+/opt/sfmc-toolbox/sfmc-nodejs-rest-lib/sfmc.tgz
+```
+
+Install the SDK:
+
+```bash
+npm install /path/to/sfmc.tgz
+```
+
+Example:
+
+```bash
+npm install ~/vendor/sfmc.tgz
+```
+
+Requirements:
+
+* Node.js 20+
+* Access to an SFMC installation
+* SFMC Node.js SDK (`sfmc.tgz`)
 
 ---
 
@@ -31,13 +67,15 @@ Planned integrations include BarentsWatch (barentswatch.no) and Narval (narval.n
 * GPS position extraction
 * Slocum coordinate conversion
 * Position deduplication
-* State persistence
+* Persistent state tracking
+* External forwarding framework
 
 ### In Progress
 
-* External API forwarding
 * BarentsWatch integration
+* Narval integration
 * Service hardening and reconnect logic
+* Structured logging
 * Systemd deployment
 
 ---
@@ -50,7 +88,7 @@ SFMC
   ├─ Connection Event
   │
   ▼
-listenerAndPollGlider.js
+index.js
   │
   ├─ Query Active Deployment
   ├─ Extract Position
@@ -61,8 +99,8 @@ listenerAndPollGlider.js
     positionForwarder.js
           │
           ├─ BarentsWatch
-          ├─ API 2
-          └─ API 3
+          ├─ Narval
+          └─ Future APIs
 
 State
   │
@@ -81,11 +119,12 @@ config/
 logs/
 
 src/
-    listenerAndPollGlider.js
+    index.js
     config.js
     stateStore.js
     positionForwarder.js
     barentswatchClient.js
+    narvalClient.js
 
 state/
     last_positions.json
@@ -103,13 +142,17 @@ systemd/
 {
     "sfmc": {
         "gliders": [
-            "glider-1",
-            "glider-2",
-            "glider-1"
+            "durin",
+            "dvalin",
+            "urd"
         ]
     },
 
     "barentswatch": {
+        "enabled": false
+    },
+
+    "narval": {
         "enabled": false
     },
 
@@ -133,6 +176,12 @@ Install dependencies:
 npm install
 ```
 
+Install the SFMC SDK:
+
+```bash
+npm install /path/to/sfmc.tgz
+```
+
 ---
 
 ## Running
@@ -140,26 +189,26 @@ npm install
 Run interactively:
 
 ```bash
-node src/listenerAndPollGlider.js
+node src/index.js
 ```
 
 Run in background:
 
 ```bash
-nohup node src/listenerAndPollGlider.js \
-    > logs/listenerAndPollGlider.log 2>&1 &
+nohup node src/index.js \
+    > logs/index.log 2>&1 &
 ```
 
 View logs:
 
 ```bash
-tail -f logs/listenerAndPollGlider.log
+tail -f logs/index.log
 ```
 
 Stop service:
 
 ```bash
-pkill -f "listenerAndPollGlider.js"
+pkill -f "src/index.js"
 ```
 
 ---
@@ -172,20 +221,28 @@ When a glider connects:
 2. Query active deployment
 3. Extract latest GPS fix
 4. Convert Slocum coordinates to decimal degrees
-5. Compare against last transmitted position
+5. Compare against previously forwarded positions
 6. Forward if position is new
 7. Update local state
+
+Duplicate positions are suppressed using:
+
+```text
+state/last_positions.json
+```
+
+This allows safe restarts without retransmitting previously forwarded positions.
 
 ---
 
 ## Future Work
 
 * BarentsWatch integration
-* narval integration
-* Multiple destination APIs
+* Narval integration
+* Additional destination APIs
 * Automatic reconnect handling
 * Structured logging
-* Systemd service deployment
+* Systemd deployment
 * Deployment metadata support
 * Health monitoring and alerting
 
